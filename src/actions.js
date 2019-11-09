@@ -24,7 +24,7 @@ module.exports.register = function (username, pwd, callback) {
 
 var insertUser = function (username, callback) {
   var status = -1;
-  var query = "INSERT INTO public.user (username, email) VALUES ('" + username + "', '" + email + "');";
+  var query = "INSERT INTO public.user (username, email) VALUES ('" + username + "', '" + username + "');";
   SQLQuery(query, function (err, res) {
     if (err) {
       status = 0;
