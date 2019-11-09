@@ -1,38 +1,52 @@
+import GoogleMaps from "@google/maps";
+import { promisify } from "util";
+import get from "lodash.get";
+
 import { calculateEmissions } from "./carbonHelpers";
+import { TRANSPORT_TYPES } from "./transportHelpers";
 
-export function getDirections(origin, destination, mode) {
-  const googleMapsClient = require('@google/maps').createClient({
-    key: 'AIzaSyBnw3zF19o4g2IABEE7PP4wIeFbuVY6w-A'
-  });
+const googleMapsClient = GoogleMaps.createClient({
+  key: process.env.GOOGLE_MAPS_API_KEY
+});
 
-  googleMapsClient.directions({
-    origin: 'place_id:ChIJtUiovwJwcVMRBCqAUqr-Ed4',
-    destination: 'place_id:ChIJN2IIz_xvcVMRXOZpdWodzrc',
-    // mode: 'transit'
-  }, function(err, response) {
-    if (!err) { parseResponse(response); }
-  });
+export async function getDirections(
+  origin,
+  destination,
+  mode = TRANSPORT_TYPES.DRIVING
+) {
+  const asyncDirections = promisify(googleMapsClient.directions);
+  try {
+    const directions = await asyncDirections({
+      origin,
+      destination,
+      mode: mode.toLowerCase()
+    });
+
+    return directions;
+  } catch (e) {
+    throw new Error(`Error occurred retrieving directions: ${e.message}`);
+  }
 }
 
 // get each mode and distance, and call calculateEmissions
-function parseResponse(response) {
-  const steps = response.json.routes[0].legs[0].steps;
+export function totalEmissionsForRoute(response) {
+  const steps = get(response, "json.routes[0].legs[0].steps") || [];
   const modesAndDistances = steps.reduce((total, step) => {
-    const travelMode = step.travel_mode;
-    if (travelMode){
+    const travelMode = get(step, "travel_mode");
+    if (travelMode) {
       if (!total[travelMode]) {
         total[travelMode] = 0;
       }
 
-      const distance = step.distance.value;
+      const distance = get(step, "distance.value");
       total[travelMode] += distance;
     }
 
     return total;
-  }, {})
+  }, {});
   return Object.entries(modesAndDistances).reduce((sum, [mode, distance]) => {
     sum += calculateEmissions(distance, mode);
 
     return sum;
-  }, 0)
+  }, 0);
 }
