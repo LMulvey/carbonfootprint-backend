@@ -2,7 +2,6 @@ import {
   getDirections,
   totalEmissionsForRoute
 } from "../src/lib/googleMapsApi";
-import snapshotDirections from "./snapshots/directionsSnapshot";
 
 describe("GoogleMaps", () => {
   test("totalEmissionsForRoute | Returns totalEmissions for a route in g/CO2", async () => {
