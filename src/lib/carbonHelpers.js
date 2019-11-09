@@ -4,6 +4,7 @@
  */
 export function calculateVehicleEmissions(distance) {
   if (typeof distance !== 'number') {
+    console.log('Error occurred');
     throw new Error('Invalid distance provided. Distance should be a number in kilometers.');
   }
 
@@ -14,5 +15,5 @@ export function calculateVehicleEmissions(distance) {
    * See: https://www.iea.org/topics/transport/gfei/
    */
   const EMISSION_FACTOR_PER_KM = 0.206;
-  return distance * EMISSION_FACTOR_PER_KM;
+  return (distance * EMISSION_FACTOR_PER_KM).toFixed(4);
 }

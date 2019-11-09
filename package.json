@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node -r esm src/server.js"
+    "start": "nodemon -r esm src/server.js"
   },
   "repository": {
     "type": "git",
@@ -24,6 +24,7 @@
     "express": "4.17.1"
   },
   "devDependencies": {
-    "esm": "3.2.25"
+    "esm": "3.2.25",
+    "nodemon": "^1.19.4"
   }
 }
