@@ -1,15 +1,15 @@
 import { titleCase } from "./genericHelpers";
 
 export const TRANSPORT_TYPES = {
-  VEHICLE: "VEHICLE",
-  PUBLIC: "PUBLIC",
-  BIKE: "BIKE",
-  WALK: "WALK"
+  DRIVING: "DRIVING",
+  TRANSIT: "TRANSIT",
+  BICYCLING: "BICYCLING",
+  WALKING: "WALKING"
 };
 
 export function validateTransportType(inputType) {
   if (typeof inputType !== "string") {
-    throw new Error("Vehicle Type should be a string.");
+    throw new Error("Transport Type should be a string.");
   }
 
   const lowerCaseType = inputType.toLowerCase();
