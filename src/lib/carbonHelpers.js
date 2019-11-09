@@ -5,7 +5,8 @@ import { TRANSPORT_TYPES, validateTransportType } from "./transportHelpers";
  * Additionally validates the input to confirm that we support the passed in transportation type.
  * @param {String} transportType - type of transport to calculate emissions for
  */
-function resolveEmissionFactor(transportType) {
+function resolveEmissionFactor(transportType = TRANSPORT_TYPES.DRIVING) {
+  console.log({ transportType });
   const emissionFactorMap = {
     /**
      * This number is based off of IEA GFEI report for Fuel Economy.
@@ -13,14 +14,14 @@ function resolveEmissionFactor(transportType) {
      * for 2017. We convert to kilograms for calculations.
      * See: https://www.iea.org/topics/transport/gfei/
      */
-    [TRANSPORT_TYPES.VEHICLE]: 0.206,
+    [TRANSPORT_TYPES.DRIVING]: 0.206,
 
     // TODO: Find an actual value for public transport
-    [TRANSPORT_TYPES.PUBLIC]: 0,
+    [TRANSPORT_TYPES.TRANSIT]: 0,
 
     // TODO: Validate that these are ACTUALLY zero.
-    [TRANSPORT_TYPES.BIKE]: 0,
-    [TRANSPORT_TYPES.WALK]: 0
+    [TRANSPORT_TYPES.BICYCLING]: 0,
+    [TRANSPORT_TYPES.WALKING]: 0
   };
 
   const validTransportType = validateTransportType(transportType);
