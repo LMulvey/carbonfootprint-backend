@@ -1,5 +1,5 @@
 export function titleCase(str) {
-  if (typeof str !== 'string') {
+  if (typeof str !== "string") {
     throw new Error(`How would you titleCase a ${typeof str}`);
   }
 
