@@ -1,7 +1,6 @@
 // connect with PostgresSQL
 const pg = require('pg');
 
-
 // Database config
 const config = {
   user: "kdxqdnrgeidzud",
