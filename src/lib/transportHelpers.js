@@ -1,5 +1,3 @@
-import { titleCase } from "./genericHelpers";
-
 export const TRANSPORT_TYPES = {
   DRIVING: "DRIVING",
   TRANSIT: "TRANSIT",
@@ -12,13 +10,11 @@ export function validateTransportType(inputType) {
     throw new Error("Transport Type should be a string.");
   }
 
-  const lowerCaseType = inputType.toLowerCase();
-  const typeCandidate = TRANSPORT_TYPES[lowerCaseType];
+  const upperCaseType = inputType.toUpperCase();
+  const typeCandidate = TRANSPORT_TYPES[upperCaseType];
 
   if (!typeCandidate) {
-    const prettyTypes = Object.keys(TRANSPORT_TYPES)
-      .map(key => titleCase(key))
-      .join(", ");
+    const prettyTypes = Object.keys(TRANSPORT_TYPES).join(", ");
     throw new Error(
       `Invalid transport type. Transport should be one of the following: ${prettyTypes}`
     );
