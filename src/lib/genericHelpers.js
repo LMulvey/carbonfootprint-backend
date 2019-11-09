@@ -3,5 +3,5 @@ export function titleCase(str) {
     throw new Error(`How would you titleCase a ${typeof str}`);
   }
 
-  return str[0].toUpperCase() + str.substr(1);
+  return str[0].toUpperCase() + str.substr(1).toLowerCase();
 }
