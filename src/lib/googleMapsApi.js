@@ -16,11 +16,23 @@ export function getDirections(origin, destination, mode) {
 
 // get each mode and distance, and call calculateEmissions
 function parseResponse(response) {
-  var steps = response.json.routes[0].legs[0].steps;
-  steps.forEach(step => {
-    var result = calculateEmissions(step.distance.value, step.travel_mode);
-    console.log(result);
-  })
-}
+  const steps = response.json.routes[0].legs[0].steps;
+  const modesAndDistances = steps.reduce((total, step) => {
+    const travelMode = step.travel_mode;
+    if (travelMode){
+      if (!total[travelMode]) {
+        total[travelMode] = 0;
+      }
 
-getDirections();
+      const distance = step.distance.value;
+      total[travelMode] += distance;
+    }
+
+    return total;
+  }, {})
+  return Object.entries(modesAndDistances).reduce((sum, [mode, distance]) => {
+    sum += calculateEmissions(distance, mode);
+
+    return sum;
+  }, 0)
+}
