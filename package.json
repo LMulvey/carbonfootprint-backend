@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "start": "nodemon -r esm src/server.js"
+    "start": "nodemon -r esm src/server.js",
+    "start:heroku": "node -r esm src/server.js"
   },
   "repository": {
     "type": "git",
