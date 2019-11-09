@@ -1,2 +1,4 @@
 language: node_js
 node_js: node
+env:
+  - GOOGLE_MAPS_API_KEY="AIzaSyBnw3zF19o4g2IABEE7PP4wIeFbuVY6w-A"
