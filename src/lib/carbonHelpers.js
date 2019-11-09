@@ -6,7 +6,6 @@ import { TRANSPORT_TYPES, validateTransportType } from "./transportHelpers";
  * @param {String} transportType - type of transport to calculate emissions for
  */
 function resolveEmissionFactor(transportType = TRANSPORT_TYPES.DRIVING) {
-  console.log({ transportType });
   const emissionFactorMap = {
     /**
      * This number is based off of IEA GFEI report for Fuel Economy.
@@ -40,6 +39,10 @@ export function calculateEmissions(distance, transportType) {
     );
   }
 
+  if (distance <= 0) {
+    return 0;
+  }
+
   const EMISSION_FACTOR_PER_KM = resolveEmissionFactor(transportType);
-  return (distance * EMISSION_FACTOR_PER_KM).toFixed(4);
+  return parseFloat((distance * EMISSION_FACTOR_PER_KM).toFixed(4));
 }
