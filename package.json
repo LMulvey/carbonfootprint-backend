@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node -r esm src/server.js"
+    "start": "nodemon -r esm src/server.js"
   },
   "repository": {
     "type": "git",
@@ -24,6 +24,13 @@
     "express": "4.17.1"
   },
   "devDependencies": {
-    "esm": "3.2.25"
+    "eslint": "6.6.0",
+    "eslint-config-airbnb-base": "14.0.0",
+    "eslint-config-prettier": "6.5.0",
+    "eslint-plugin-import": "2.18.2",
+    "eslint-plugin-prettier": "3.1.1",
+    "esm": "3.2.25",
+    "nodemon": "1.19.4",
+    "prettier": "1.19.1"
   }
 }
