@@ -1,0 +1,8 @@
+# Node
+.npm
+node_modules
+
+# Environment
+.env
+
+
