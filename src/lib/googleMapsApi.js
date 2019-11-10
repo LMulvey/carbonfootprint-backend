@@ -5,18 +5,15 @@ import get from "lodash.get";
 
 import { calculateEmissions } from "./carbonHelpers";
 import { TRANSPORT_TYPES } from "./transportHelpers";
-import dotenv from "dotenv";
-dotenv.config();
-
-const googleMapsClient = GoogleMaps.createClient({
-  key: process.env.GOOGLE_MAPS_API_KEY
-});
 
 export async function getDirections(
   origin,
   destination,
   mode = TRANSPORT_TYPES.DRIVING
 ) {
+  const googleMapsClient = GoogleMaps.createClient({
+    key: process.env.GOOGLE_MAPS_API_KEY
+  });
   const asyncDirections = promisify(googleMapsClient.directions);
   try {
     const directions = await asyncDirections({

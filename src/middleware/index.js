@@ -2,7 +2,7 @@
  * Express Middleware for validating the presence of origin
  * and destination inputs.
  */
-export function validateOriginAndDestInput(req, _, next) {
+export function validateRouteInput(req, _, next) {
   const { origin, destination } = req.query;
   if (!origin || !destination) {
     throw new Error(

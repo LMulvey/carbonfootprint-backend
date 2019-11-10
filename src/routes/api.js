@@ -1,7 +1,7 @@
 import Express from "express";
 import { calculateEmissions } from "../lib/carbonHelpers";
-import { validateOriginAndDestInput, validateDistance } from "../middleware";
-import { getRoutesForAllTypes, getDirections } from "../lib/googleMapsApi";
+import { validateRouteInput, validateDistance } from "../middleware";
+import { getRoutesForAllTypes } from "../lib/googleMapsApi";
 const router = Express.Router();
 
 router.get("/emissions", validateDistance, (req, res) => {
@@ -12,18 +12,14 @@ router.get("/emissions", validateDistance, (req, res) => {
   res.json({ carbonEmissions });
 });
 
-router.get(
-  "/routeAndEmissions",
-  validateOriginAndDestInput,
-  async (req, res) => {
-    try {
-      const { origin, destination } = req.query;
-      const emissions = await getRoutesForAllTypes(origin, destination);
-      res.json(emissions);
-    } catch (e) {
-      throw Error(e);
-    }
+router.get("/routeAndEmissions", validateRouteInput, async (req, res) => {
+  try {
+    const { origin, destination } = req.query;
+    const emissions = await getRoutesForAllTypes(origin, destination);
+    res.json(emissions);
+  } catch (e) {
+    throw Error(e);
   }
-);
+});
 
 export default router;
