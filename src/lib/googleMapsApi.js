@@ -22,10 +22,12 @@ export async function getDirections(
       destination,
       mode: mode.toLowerCase()
     });
-
     return directions.json;
   } catch (e) {
-    throw new Error(`Error occurred retrieving directions: ${e.message}`);
+    console.log({ apiKey: process.env.GOOGLE_MAPS_API_KEY, googleMapsClient });
+    throw new Error(
+      `Error occurred retrieving directions: ${JSON.stringify(e)}`
+    );
   }
 }
 
@@ -69,7 +71,6 @@ function prepareRouteAndEmissionsResponse(routes) {
     const polyline = get(data, "routes[0].overview_polyline.points");
     const totalEmissionsForRoute = calcEmissionsForRoute(data);
     const polyCoords = convertPolylineToCords(polyline);
-    console.log({ [type]: totalEmissionsForRoute });
     acc[type] = {
       googleData: data,
       polyCoords,

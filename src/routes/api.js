@@ -16,9 +16,13 @@ router.get(
   "/routeAndEmissions",
   validateOriginAndDestInput,
   async (req, res) => {
-    const { origin, destination } = req.query;
-    const emissions = await getRoutesForAllTypes(origin, destination);
-    res.json({ totalEmissions: emissions });
+    try {
+      const { origin, destination } = req.query;
+      const emissions = await getRoutesForAllTypes(origin, destination);
+      res.json({ totalEmissions: emissions });
+    } catch (e) {
+      throw Error(e);
+    }
   }
 );
 
