@@ -16,11 +16,12 @@ router.post(
   "/routeAndEmissions",
   validateOriginAndDestInput,
   async (req, res) => {
-    const { origin, destination } = req.body;
-    const directions = await getDirections(origin, destination);
-    const emissions = totalEmissionsForRoute(directions);
+    // const { origin, destination } = req.body;
+    // const directions = await getDirections(origin, destination);
+    // const emissions = totalEmissionsForRoute(directions);
 
-    coords = [{
+    coords = [
+      {
         latitude: 51.05144,
         longitude: -114.05049
       },
