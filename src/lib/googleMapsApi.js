@@ -5,6 +5,8 @@ import get from "lodash.get";
 
 import { calculateEmissions } from "./carbonHelpers";
 import { TRANSPORT_TYPES } from "./transportHelpers";
+import dotenv from "dotenv";
+dotenv.config();
 
 const googleMapsClient = GoogleMaps.createClient({
   key: process.env.GOOGLE_MAPS_API_KEY

@@ -19,7 +19,7 @@ router.get(
     try {
       const { origin, destination } = req.query;
       const emissions = await getRoutesForAllTypes(origin, destination);
-      res.json({ totalEmissions: emissions });
+      res.json(emissions);
     } catch (e) {
       throw Error(e);
     }
