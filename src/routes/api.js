@@ -12,7 +12,7 @@ router.get("/emissions", validateDistance, (req, res) => {
   res.json({ carbonEmissions });
 });
 
-router.post(
+router.get(
   "/routeAndEmissions",
   validateOriginAndDestInput,
   async (req, res) => {
