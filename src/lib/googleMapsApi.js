@@ -1,5 +1,6 @@
 import GoogleMaps from "@google/maps";
 import { promisify } from "util";
+import Polyline from "@mapbox/polyline";
 import get from "lodash.get";
 
 import { calculateEmissions } from "./carbonHelpers";
@@ -22,16 +23,80 @@ export async function getDirections(
       mode: mode.toLowerCase()
     });
 
-    return directions;
+    return directions.json;
   } catch (e) {
     throw new Error(`Error occurred retrieving directions: ${e.message}`);
   }
 }
 
+export async function getRoutesForAllTypes(origin, destination) {
+  const transitRoute = await getDirections(
+    origin,
+    destination,
+    TRANSPORT_TYPES.TRANSIT
+  );
+  const bikeRoute = await getDirections(
+    origin,
+    destination,
+    TRANSPORT_TYPES.BICYCLING
+  );
+  const walkingRoute = await getDirections(
+    origin,
+    destination,
+    TRANSPORT_TYPES.WALKING
+  );
+  const drivingRoute = await getDirections(
+    origin,
+    destination,
+    TRANSPORT_TYPES.DRIVING
+  );
+  const routePayload = {
+    [TRANSPORT_TYPES.TRANSIT]: transitRoute,
+    [TRANSPORT_TYPES.BICYCLING]: bikeRoute,
+    [TRANSPORT_TYPES.WALKING]: walkingRoute,
+    [TRANSPORT_TYPES.DRIVING]: drivingRoute
+  };
+
+  return prepareRouteAndEmissionsResponse(routePayload);
+}
+
+function prepareRouteAndEmissionsResponse(routes) {
+  if (typeof routes !== "object") {
+    throw new Error("Invalid routes input");
+  }
+
+  const routeResponse = Object.entries(routes).reduce((acc, [type, data]) => {
+    const polyline = get(data, "routes[0].overview_polyline.points");
+    const totalEmissionsForRoute = calcEmissionsForRoute(data);
+    const polyCoords = convertPolylineToCords(polyline);
+    console.log({ [type]: totalEmissionsForRoute });
+    acc[type] = {
+      googleData: data,
+      polyCoords,
+      totalEmissionsForRoute
+    };
+    return acc;
+  }, {});
+
+  return routeResponse;
+}
+
+function convertPolylineToCords(polyline) {
+  const points = Polyline.decode(polyline);
+  const coords = points.map(point => {
+    return {
+      latitude: point[0],
+      longitude: point[1]
+    };
+  });
+
+  return coords;
+}
+
 // get each mode and distance, and call calculateEmissions
-export function totalEmissionsForRoute(response) {
-  const steps = get(response, "json.routes[0].legs[0].steps") || [];
-  const modesAndDistances = steps.reduce((total, step) => {
+export function calcEmissionsForRoute(response) {
+  const steps = get(response, "routes[0].legs[0].steps") || [];
+  const totalDistance = steps.reduce((total, step) => {
     const travelMode = get(step, "travel_mode");
     if (travelMode) {
       if (!total[travelMode]) {
@@ -44,9 +109,9 @@ export function totalEmissionsForRoute(response) {
 
     return total;
   }, {});
-  return Object.entries(modesAndDistances).reduce((sum, [mode, distance]) => {
-    sum += calculateEmissions(distance, mode);
 
+  return Object.entries(totalDistance).reduce((sum, [mode, distance]) => {
+    sum += calculateEmissions(distance, mode);
     return sum;
   }, 0);
 }
