@@ -106,8 +106,9 @@ export function calcEmissionsForRoute(response) {
         total[travelMode] = 0;
       }
 
-      const distance = get(step, "distance.value");
-      total[travelMode] += distance;
+      const distanceInMeters = get(step, "distance.value");
+      const distanceInKms = distanceInMeters / 1000;
+      total[travelMode] += distanceInKms;
     }
 
     return total;
