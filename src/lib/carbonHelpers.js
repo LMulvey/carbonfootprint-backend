@@ -15,7 +15,6 @@ function resolveEmissionFactor(transportType = TRANSPORT_TYPES.DRIVING) {
      */
     [TRANSPORT_TYPES.DRIVING]: 0.206,
 
-    // TODO: Find an actual value for public transport
     /**
      * We start with the US Average pounds of CO2/e per mile
      * See: https://www.transit.dot.gov/sites/fta.dot.gov/files/docs/PublicTransportationsRoleInRespondingToClimateChange2010.pdf
@@ -41,7 +40,6 @@ function resolveEmissionFactor(transportType = TRANSPORT_TYPES.DRIVING) {
  */
 export function calculateEmissions(distance, transportType) {
   if (typeof distance !== "number") {
-    console.log("Error occurred");
     throw new Error(
       "Invalid distance provided. Distance should be a number in kilometers."
     );
