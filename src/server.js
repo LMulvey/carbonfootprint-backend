@@ -12,7 +12,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/api", apiRoutes);
 app.get("/", (req, res) => {
   res.send(
-    "Please use the API at /api/footprint to grab carbon emissions data"
+    "Please use the API at /api/emissions?distance= to grab carbon emissions data for distance"
   );
 });
 
