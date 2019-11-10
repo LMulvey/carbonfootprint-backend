@@ -4,6 +4,7 @@
  */
 export function validateOriginAndDestInput(req, _, next) {
   const { origin, destination } = req.body;
+  console.log(req.body);
   if (!origin || !destination) {
     throw new Error(
       "Origin and Destination are required for calculating emissions based on route"
