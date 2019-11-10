@@ -6,9 +6,9 @@ const router = Express.Router();
 
 router.get("/emissions", validateDistance, (req, res) => {
   // This takes a distance for now but can be changed out.
-  const distance = req.query.distance;
+  const { distance, transportType } = req.query;
   const parsedDistance = parseFloat(distance);
-  const carbonEmissions = calculateEmissions(parsedDistance);
+  const carbonEmissions = calculateEmissions(parsedDistance, transportType);
   res.json({ carbonEmissions });
 });
 

@@ -16,7 +16,15 @@ function resolveEmissionFactor(transportType = TRANSPORT_TYPES.DRIVING) {
     [TRANSPORT_TYPES.DRIVING]: 0.206,
 
     // TODO: Find an actual value for public transport
-    [TRANSPORT_TYPES.TRANSIT]: 0,
+    /**
+     * We start with the US Average pounds of CO2/e per mile
+     * See: https://www.transit.dot.gov/sites/fta.dot.gov/files/docs/PublicTransportationsRoleInRespondingToClimateChange2010.pdf
+     * 0.45 lbs CO2/e per mile is the national average for public transit
+     * 0.72 lbs CO2/e per KM
+     * Roughly 203 grams per mile
+     * or 127 grams per KM
+     */
+    [TRANSPORT_TYPES.TRANSIT]: 0.127,
 
     // TODO: Validate that these are ACTUALLY zero.
     [TRANSPORT_TYPES.BICYCLING]: 0,
