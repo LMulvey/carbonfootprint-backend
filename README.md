@@ -2,6 +2,8 @@
 Backend for Carbon Footprint app
 
 ## Endpoints
+
+### Emissions
 `/api/emissions?distance=<distance>`
 
 **Parameters:**
@@ -11,6 +13,7 @@ Backend for Carbon Footprint app
 
 Returns emissions value in grams CO2/e.
 
+### RouteAndEmissions
 `/api/routeAndEmissions?origin=<origin>&destination=<destination>`
 
 **Parameters:**
