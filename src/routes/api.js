@@ -20,7 +20,7 @@ router.post(
     // const directions = await getDirections(origin, destination);
     // const emissions = totalEmissionsForRoute(directions);
 
-    coords = [
+    const coords = [
       {
         latitude: 51.05144,
         longitude: -114.05049
