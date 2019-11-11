@@ -23,7 +23,6 @@ export async function getDirections(
     });
     return directions.json;
   } catch (e) {
-    console.log({ apiKey: process.env.GOOGLE_MAPS_API_KEY, googleMapsClient });
     throw new Error(
       `Error occurred retrieving directions: ${JSON.stringify(e)}`
     );

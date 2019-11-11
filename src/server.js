@@ -4,32 +4,19 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import apiRoutes from "./routes/api";
+import rootRoutes from "./routes/root";
+
+import { handleErrorResponse } from "./middleware";
 
 const PORT = process.env.PORT || 8080;
 const app = Express();
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
 app.use("/api", apiRoutes);
-app.get("/", (req, res) => {
-  res.send(
-    "Please use the API at /api/emissions?distance= to grab carbon emissions data for distance"
-  );
-});
-
-// Error handler
-app.use("/", (err, req, res, next) => {
-  if (err) {
-    res.status(500).json({
-      success: false,
-      errorMessage: err.message || "An error occurred."
-    });
-    return;
-  }
-
-  return next();
-});
+app.get("/", rootRoutes);
+app.use("/", handleErrorResponse);
 
 app.listen(PORT, () => {
-  console.log(`App listening on ${PORT}`);
+  console.log(`🌍 Carbon Footprint API listening on ${PORT}`);
 });
