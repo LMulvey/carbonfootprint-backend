@@ -1,5 +1,5 @@
 # carbonfootprint-backend
-Backend for Carbon Footprint app
+API for **Code The Change YYC Hackathon project: Carbon Footprint Tracker**
 
 ## Endpoints
 
